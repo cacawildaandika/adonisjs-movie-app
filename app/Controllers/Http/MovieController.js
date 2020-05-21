@@ -9,7 +9,7 @@ const InternalServerErrorException = use('App/Exceptions/InternalServerErrorExce
 
 class MovieController {
   async index({ request, response }) {
-    const movies = await Movie.all()
+    const movies = await Movie.query().with('genre').with('director').fetch()
     return response.json(movies)
   }
 
@@ -36,8 +36,8 @@ class MovieController {
       const movie = new Movie()
 
       movie.title = body.title
-      movie.director = body.director
-      movie.genre = body.genre
+      movie.director_id = body.director
+      movie.genre_id = body.genre
       movie.summary = body.summary
       movie.release_year = body.year
       movie.rating = body.rating
@@ -63,6 +63,10 @@ class MovieController {
   async show ({ request, response }) {
     try {
       const movie = await Movie.findOrFail(request.params.id)
+      const director = await movie.director().fetch()
+      const genre = await movie.genre().fetch()
+      movie.director = director
+      movie.genre = genre
       return response.json(movie)
     } catch (error) {
       if (error.name == "ModelNotFoundException") {
@@ -93,12 +97,12 @@ class MovieController {
 
       if (body.genre) {
         const genre = await Genre.findOrFail(body.genre)
-        movie.genre = body.genre
+        movie.genre_id = body.genre
       }
 
       if (body.director) {
         const director = await Director.findOrFail(body.director)
-        movie.director = body.director
+        movie.director_id = body.director
       }
 
       movie.save()

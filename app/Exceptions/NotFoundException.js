@@ -3,6 +3,11 @@
 const { LogicalException } = require('@adonisjs/generic-exceptions')
 
 class NotFoundException extends LogicalException {
+  constructor(message = 'Data not found'){
+    super()
+    this.message = message
+  }
+
   /**
    * Handle this exception by itself
    */
@@ -10,7 +15,7 @@ class NotFoundException extends LogicalException {
     return response.status(404).json({
       status : 'NotFound',
       data: null,
-      error: 'Data not found'
+      error: this.message
     })
   }
 }

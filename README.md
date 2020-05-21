@@ -1,12 +1,4 @@
-# Adonis API application
-
-This is the boilerplate for creating an API server in AdonisJs, it comes pre-configured with.
-
-1. Bodyparser
-2. Authentication
-3. CORS
-4. Lucid ORM
-5. Migrations and seeds
+# Movie App API
 
 ## Setup
 
@@ -26,3 +18,13 @@ Run the following command to run startup migrations.
 ```js
 adonis migration:run
 ```
+
+### Running in Development
+
+```js
+adonis serve --dev
+```
+
+### Running in Production
+
+See the adonis documentation

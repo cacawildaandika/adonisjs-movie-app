@@ -21,3 +21,4 @@ Route.get('/', () => {
 })
 
 Route.resource('director', 'DirectorController').apiOnly()
+Route.resource('genre', 'GenreController').apiOnly()

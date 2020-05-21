@@ -20,5 +20,6 @@ Route.get('/', () => {
   return { greeting: 'Hello world in JSON' }
 })
 
+Route.resource('movie', 'MovieController').apiOnly()
 Route.resource('director', 'DirectorController').apiOnly()
 Route.resource('genre', 'GenreController').apiOnly()

@@ -2,16 +2,9 @@
 
 ## Setup
 
-Use the adonis command to install the blueprint
+run `npm install`.
 
-```bash
-adonis new yardstick --api-only
-```
-
-or manually clone the repo and then run `npm install`.
-
-
-### Migrations
+## Migrations
 
 Run the following command to run startup migrations.
 
@@ -19,12 +12,12 @@ Run the following command to run startup migrations.
 adonis migration:run
 ```
 
-### Running in Development
+## Running in Development
 
 ```js
 adonis serve --dev
 ```
 
-### Running in Production
+## Running in Production
 
 See the adonis documentation

@@ -45,7 +45,11 @@ class DirectorController {
   async show ({ request, response }) {
     try {
       const director = await Director.findOrFail(request.params.id)
-      return response.json(director)
+      return response.json({
+        status: 'Ok',
+        data: director,
+        error: null
+      })
     } catch (error) {
       if (error.name == "ModelNotFoundException") {
         throw new NotFoundException()
@@ -69,7 +73,11 @@ class DirectorController {
       const director = await Director.findOrFail(request.params.id)
       director.name = body.name
       director.save()
-      return response.json(director)
+      return response.json({
+        status: 'Ok',
+        data: director,
+        error: null
+      })
     } catch (error) {
       if (error.name == "ModelNotFoundException") {
         throw new NotFoundException()
@@ -98,8 +106,6 @@ class DirectorController {
         })
       }
     } catch (error) {
-      console.log(error);
-
       if (error.name == "ModelNotFoundException") {
         throw new NotFoundException()
       }

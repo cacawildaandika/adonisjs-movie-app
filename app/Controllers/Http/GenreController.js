@@ -44,7 +44,11 @@ class GenreController {
   async show ({ request, response }) {
     try {
       const genre = await Genre.findOrFail(request.params.id)
-      return response.json(genre)
+      return response.json({
+        status: 'Ok',
+        data: genre,
+        error: null
+      })
     } catch (error) {
       if (error.name == "ModelNotFoundException") {
         throw new NotFoundException()
@@ -68,7 +72,11 @@ class GenreController {
       const genre = await Genre.findOrFail(request.params.id)
       genre.name = body.name
       genre.save()
-      return response.json(genre)
+      return response.json({
+        status: 'Ok',
+        data: genre,
+        error: null
+      })
     } catch (error) {
       if (error.name == "ModelNotFoundException") {
         throw new NotFoundException()

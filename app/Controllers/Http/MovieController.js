@@ -10,7 +10,11 @@ const InternalServerErrorException = use('App/Exceptions/InternalServerErrorExce
 class MovieController {
   async index({ request, response }) {
     const movies = await Movie.query().with('genre').with('director').fetch()
-    return response.json(movies)
+    return response.json({
+      status: 'Ok',
+      data: movies,
+      error: null
+    })
   }
 
   async store({ request, response }) {
@@ -67,7 +71,11 @@ class MovieController {
       const genre = await movie.genre().fetch()
       movie.director = director
       movie.genre = genre
-      return response.json(movie)
+      return response.json({
+        status: 'Ok',
+        data: movie,
+        error: null
+      })
     } catch (error) {
       if (error.name == "ModelNotFoundException") {
         throw new NotFoundException()
@@ -107,7 +115,11 @@ class MovieController {
 
       movie.save()
 
-      return response.json(movie)
+      return response.json({
+        status: 'Ok',
+        data: movie,
+        error: null
+      })
     } catch (error) {
       if (error.name == "ModelNotFoundException") {
         throw new NotFoundException()

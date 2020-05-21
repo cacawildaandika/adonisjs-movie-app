@@ -4,6 +4,7 @@ const Director = use('App/Models/Director')
 const Movie = use('App/Models/Movie')
 const { validate } = use('Validator')
 const NotFoundException = use('App/Exceptions/NotFoundException')
+const BadRequestException = use('App/Exceptions/BadRequestException')
 const InternalServerErrorException = use('App/Exceptions/InternalServerErrorException')
 
 class DirectorController {
@@ -22,7 +23,7 @@ class DirectorController {
     }
     const validation = await validate(request.all(), rules)
     if (validation.fails()) {
-      return response.status(400).json(validation.messages())
+      throw new BadRequestException(validation.messages())
     }
 
     const body = request.post()
@@ -64,7 +65,7 @@ class DirectorController {
     }
     const validation = await validate(request.all(), rules)
     if (validation.fails()) {
-      return response.status(400).json(validation.messages())
+      throw new BadRequestException(validation.messages())
     }
 
     const body = request.post()
@@ -92,11 +93,7 @@ class DirectorController {
       const moviesCount = [].length
 
       if (moviesCount > 0) {
-        return response.status(400).json({
-          status: 'InRelationship',
-          data: null,
-          error: 'In Relationship. Can\'t delete a director who is still in a relationship'
-        })
+        throw new BadRequestException('In Relationship. Can\'t delete a director who is still in a relationship')
       }else{
         director.delete()
         return response.status(204).json({

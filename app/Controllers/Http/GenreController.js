@@ -3,6 +3,7 @@
 const Genre = use('App/Models/Genre')
 const { validate } = use('Validator')
 const NotFoundException = use('App/Exceptions/NotFoundException')
+const BadRequestException = use('App/Exceptions/BadRequestException')
 const InternalServerErrorException = use('App/Exceptions/InternalServerErrorException')
 
 class GenreController {
@@ -21,7 +22,7 @@ class GenreController {
     }
     const validation = await validate(request.all(), rules)
     if (validation.fails()) {
-      return response.status(400).json(validation.messages())
+      throw new BadRequestException(validation.messages())
     }
 
     const body = request.post()
@@ -63,7 +64,7 @@ class GenreController {
     }
     const validation = await validate(request.all(), rules)
     if (validation.fails()) {
-      return response.status(400).json(validation.messages())
+      throw new BadRequestException(validation.messages())
     }
 
     const body = request.post()
@@ -91,11 +92,7 @@ class GenreController {
       const moviesCount = [].length
 
       if (moviesCount > 0) {
-        return response.status(400).json({
-          status: 'InRelationship',
-          data: null,
-          error: 'In Relationship. Can\'t delete a genre who is still in a relationship'
-        })
+        throw new BadRequestException('In Relationship. Can\'t delete a genre who is still in a relationship')
       }else{
         genre.delete()
         return response.status(204).json({
@@ -105,8 +102,6 @@ class GenreController {
         })
       }
     } catch (error) {
-      console.log(error);
-
       if (error.name == "ModelNotFoundException") {
         throw new NotFoundException()
       }

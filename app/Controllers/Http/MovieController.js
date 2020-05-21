@@ -5,6 +5,7 @@ const Genre = use('App/Models/Genre')
 const Director = use('App/Models/Director')
 const { validate } = use('Validator')
 const NotFoundException = use('App/Exceptions/NotFoundException')
+const BadRequestException = use('App/Exceptions/BadRequestException')
 const InternalServerErrorException = use('App/Exceptions/InternalServerErrorException')
 
 class MovieController {
@@ -28,7 +29,7 @@ class MovieController {
     }
     const validation = await validate(request.all(), rules)
     if (validation.fails()) {
-      return response.status(400).json(validation.messages())
+      throw new BadRequestException(validation.messages())
     }
 
     const body = request.post()
@@ -55,8 +56,6 @@ class MovieController {
       })
 
     } catch (error) {
-      console.log(error);
-
       if (error.name == "ModelNotFoundException") {
         throw new NotFoundException('Genre / Director not found')
       }
@@ -88,11 +87,7 @@ class MovieController {
     const body = request.post()
 
     if ( Object.keys(body).length  < 1) {
-      return response.status(400).json({
-        status: 'Bad Request',
-        data: null,
-        error: 'Data must 1 or more'
-      })
+      throw new BadRequestException('Data must 1 or more')
     }
 
     try {

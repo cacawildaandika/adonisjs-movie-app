@@ -31,15 +31,15 @@ class DirectorController {
       const director = new Director()
       director.name = body.name
       await director.save()
+
+      return response.json({
+        status: 'Created',
+        data: director,
+        error: null
+      })
     } catch (error) {
       throw new InternalServerErrorException()
     }
-
-    return response.json({
-      status: 'Created',
-      data: director,
-      error: null
-    })
   }
 
   async show ({ request, response }) {
@@ -68,6 +68,7 @@ class DirectorController {
     try {
       const director = await Director.findOrFail(request.params.id)
       director.name = body.name
+      director.save()
       return response.json(director)
     } catch (error) {
       if (error.name == "ModelNotFoundException") {

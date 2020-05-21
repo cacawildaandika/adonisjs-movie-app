@@ -22,4 +22,5 @@ Route.get('/', () => {
 
 Route.resource('movie', 'MovieController').apiOnly()
 Route.resource('director', 'DirectorController').apiOnly()
+Route.get('director/:id/movies', 'DirectorController.movies').as('director.movies')
 Route.resource('genre', 'GenreController').apiOnly()

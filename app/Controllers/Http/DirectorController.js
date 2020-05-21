@@ -106,6 +106,26 @@ class DirectorController {
       throw new InternalServerErrorException()
     }
   }
+
+  async movies({ request, response }) {
+    try {
+      const director = await Director.findOrFail(request.params.id)
+      const movies = await director.movies().fetch()
+      return response.json({
+        status: 'Ok',
+        data: {
+          director,
+          movies
+        },
+        error: null
+      })
+    } catch (error) {
+      if (error.name == "ModelNotFoundException") {
+        throw new NotFoundException()
+      }
+      throw new InternalServerErrorException()
+    }
+  }
 }
 
 module.exports = DirectorController

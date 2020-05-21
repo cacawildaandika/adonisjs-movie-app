@@ -9,7 +9,7 @@ class Director extends Model {
   }
 
   movies (){
-    return this.hasMany('App/Models/Movie', 'id', 'director')
+    return this.hasMany('App/Models/Movie')
   }
 }
 

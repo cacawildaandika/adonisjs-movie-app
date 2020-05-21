@@ -105,6 +105,26 @@ class GenreController {
       throw new InternalServerErrorException()
     }
   }
+
+  async movies({ request, response }) {
+    try {
+      const genre = await Genre.findOrFail(request.params.id)
+      const movies = await genre.movies().fetch()
+      return response.json({
+        status: 'Ok',
+        data: {
+          genre,
+          movies
+        },
+        error: null
+      })
+    } catch (error) {
+      if (error.name == "ModelNotFoundException") {
+        throw new NotFoundException()
+      }
+      throw new InternalServerErrorException()
+    }
+  }
 }
 
 module.exports = GenreController

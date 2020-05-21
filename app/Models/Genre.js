@@ -9,7 +9,7 @@ class Genre extends Model {
   }
 
   movies (){
-    return this.hasMany('App/Models/Movie', 'id', 'genre')
+    return this.hasMany('App/Models/Movie')
   }
 }
 
